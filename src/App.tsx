@@ -1,7 +1,11 @@
 import React from 'react';
 
 const App = () => {
-  return <div>Collab and Create</div>;
+  return (
+    <h1 className="text-3xl font-bold underline cursor-pointer">
+      Hello world!
+    </h1>
+  );
 };
 
 export default App;
