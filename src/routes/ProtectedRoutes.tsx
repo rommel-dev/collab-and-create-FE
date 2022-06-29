@@ -1,8 +1,9 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useUserStore } from '../state/user.store';
 
 const ProtectedRoutes = () => {
-  return <Outlet />;
+  const { isAuth } = useUserStore();
+  return isAuth ? <Outlet /> : <Navigate to="/welcome" />;
 };
 
 export default ProtectedRoutes;

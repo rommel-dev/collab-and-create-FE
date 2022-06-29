@@ -15,7 +15,7 @@ const Homepage = () => {
           accomplish it all with Collab&Create.
         </div>
         <button
-          onClick={() => navigate('/register')}
+          onClick={() => navigate('/auth/signup')}
           type="button"
           className="bg-gradient-to-r from-indigo-700 to-indigo-500 hover:from-indigo-800 focus:outline-none hover:to-indigo-600 p-4 rounded-2xl md:w-3/6"
         >

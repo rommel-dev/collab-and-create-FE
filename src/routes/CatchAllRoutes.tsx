@@ -1,8 +1,14 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { useUserStore } from '../state/user.store';
 
 const CatchAllRoutes = () => {
-  return <Outlet />;
+  const { isAuth } = useUserStore();
+
+  return isAuth ? (
+    <Navigate to="/projects/ongoing" />
+  ) : (
+    <Navigate to="/welcome" />
+  );
 };
 
 export default CatchAllRoutes;
