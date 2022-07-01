@@ -9,22 +9,33 @@ import { useUserStore } from 'state/user.store';
 const Layout = () => {
   const isAuth = useUserStore((state) => state.isAuth);
   const { extend, toggleExtend } = useSettingStore();
-  return (
-    <div
-      className={`${
-        extend ? 'md:margin-third lg:margin-fifth ' : ''
-      } transition-all duration-300 ease-in-out  h-screen flex overflow-hidden bg-white flex-col flex-1 min-w-0 flex-shrink-0`}
-    >
-      {extend && (
-        <div
-          onClick={toggleExtend}
-          className="z-20 bg-gray-500 h-screen w-screen absolute top-0 bg-opacity-50 md:hidden"
-        ></div>
-      )}
 
-      {isAuth ? <WithUserHeader /> : <NoUserHeader />}
+  if (isAuth) {
+    return (
+      <div
+        className={`${
+          extend ? 'md:margin-third lg:margin-fifth ' : ''
+        } transition-all duration-300 ease-in-out  h-screen flex overflow-hidden bg-white flex-col flex-1 min-w-0 flex-shrink-0`}
+      >
+        {extend && (
+          <div
+            onClick={toggleExtend}
+            className="z-20 bg-gray-500 h-screen w-screen absolute top-0 bg-opacity-50 md:hidden"
+          ></div>
+        )}
+
+        <WithUserHeader />
+        <SideDrawer />
+        <Outlet />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <NoUserHeader />
       <Outlet />
-    </div>
+    </>
   );
 };
 

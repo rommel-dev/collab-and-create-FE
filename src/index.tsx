@@ -51,6 +51,7 @@ const authorizationLink = setContext(() => {
 export const client = new ApolloClient({
   link: authorizationLink.concat(splitLink),
   cache: new InMemoryCache(),
+  // assumeImmutableResults: true,
   connectToDevTools: true,
 });
 

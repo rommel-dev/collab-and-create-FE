@@ -1,4 +1,4 @@
-import { PROJECTS_BY_USER } from 'api/gql/project.gql';
+import { GET_PROJECTS } from 'api/gql/project/project.query';
 import { client } from 'index';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
@@ -7,7 +7,7 @@ const BottomLeft = () => {
   const location = useLocation();
 
   const projects = client.readQuery({
-    query: PROJECTS_BY_USER,
+    query: GET_PROJECTS,
   });
 
   const path1 = location.pathname.split('/')[1];

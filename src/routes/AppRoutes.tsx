@@ -27,7 +27,7 @@ const AppRoutes = () => {
 
         <Route element={<ProtectedRoutes />}>
           <Route path="projects/:status" element={<Projects />} />
-          <Route path="tasks/:category" element={<Tasks />} />
+          <Route path="tasks/:projectId" element={<Tasks />} />
           <Route path="notes" element={<Notes />} />
         </Route>
 

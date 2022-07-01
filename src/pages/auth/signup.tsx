@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthHeader from 'components/auth/AuthHeader';
 import Input from 'components/common/Input';
 import Button from 'components/common/Button';
-import { SIGN_UP } from 'api/gql/user.gql';
+import { SIGN_UP } from 'api/gql/user/user.mutation';
 
 const Signup = () => {
   const navigate = useNavigate();

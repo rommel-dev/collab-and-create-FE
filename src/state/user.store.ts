@@ -28,8 +28,13 @@ const deleteToken = () => {
   return null;
 };
 
+interface DecodedUser {
+  _id: string;
+  email: string;
+}
+
 interface UserStore {
-  isAuth: any;
+  isAuth: DecodedUser | null;
   updateIsAuth: () => void;
   logout: () => void;
 }

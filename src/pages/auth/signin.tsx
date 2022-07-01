@@ -6,8 +6,8 @@ import AuthHeader from 'components/auth/AuthHeader';
 import LoginFooter from 'components/auth/signin/LoginFooter';
 import Input from 'components/common/Input';
 import Button from 'components/common/Button';
-import { SIGNIN } from 'api/gql/user.gql';
 import { useUserStore } from 'state/user.store';
+import { SIGNIN } from 'api/gql/user/user.mutation';
 
 const Signin = () => {
   const [formState, setFormState] = useState({ email: '', password: '' });

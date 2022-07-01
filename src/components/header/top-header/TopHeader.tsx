@@ -5,11 +5,11 @@ import { useSettingStore } from 'state/setting.store';
 import NotificationMenu from './notification-menu/NotificationMenu';
 import ProfileMenu from './profile-menu/ProfileMenu';
 
-const TopHeader = () => {
+const TopHeader = ({ myInfo }: any) => {
   const { toggleExtend, extend } = useSettingStore();
   return (
     <div className="flex justify-between items-center">
-      <SideDrawer />
+      {/* <SideDrawer /> */}
       <div className="md:hidden">
         <FaBars
           className="cursor-pointer mr-3"
@@ -54,7 +54,7 @@ const TopHeader = () => {
       </div>
       <div className="flex justify-between items-center gap-3">
         <NotificationMenu />
-        <ProfileMenu />
+        <ProfileMenu myInfo={myInfo} />
       </div>
     </div>
   );

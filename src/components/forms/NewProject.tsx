@@ -13,7 +13,7 @@ const NewProject = () => {
   // TODO
   const memberOptions = [
     { _id: '62bacdad777658e655ce7648', email: 'rommel667@gmail.com' },
-  ].map((colleague: IUser) => {
+  ].map((colleague: any) => {
     return { label: colleague.email, value: colleague._id };
   });
 

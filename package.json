@@ -16,6 +16,7 @@
     "graphql-ws": "^5.9.0",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
     "react-multi-select-component": "^4.2.9",
@@ -50,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-beautiful-dnd": "^13.1.2",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.4"

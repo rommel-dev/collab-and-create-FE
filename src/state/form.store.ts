@@ -2,6 +2,7 @@ import { ISelectOption } from 'interfaces/common.interface';
 import create from 'zustand';
 
 interface Form {
+  loading: boolean;
   teamName: string;
   members: ISelectOption[];
   projectName: string;
@@ -17,6 +18,7 @@ interface Form {
 }
 
 const initialState = {
+  loading: false,
   teamName: '',
   members: [],
   projectName: '',

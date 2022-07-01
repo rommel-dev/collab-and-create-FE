@@ -1,31 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const PROJECTS_BY_USER = gql`
-  query projectsByUser {
-    projectsByUser {
-      _id
-      projectName
-      description
-      status
-      techStacks
-      createdBy(populate: true) {
-        _id
-        name
-        email
-        photo
-      }
-      confirmedMembers(populate: true) {
-        _id
-        name
-        email
-        photo
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
 export const CREATE_PROJECT = gql`
   mutation createProject(
     $projectName: String!
@@ -53,6 +27,51 @@ export const CREATE_PROJECT = gql`
         photo
       }
       confirmedMembers(populate: true) {
+        _id
+        name
+        email
+        photo
+      }
+      createdAt
+      updatedAt
+      # taskColumns {
+      #   _id
+      #   sequence
+      #   tasks {
+      #     _id
+      #     createdBy {
+      #       _id
+      #     }
+      #     inCharge {
+      #       _id
+      #     }
+      #   }
+      # }
+    }
+  }
+`;
+
+export const INVITE_RESPONSE = gql`
+  mutation inviteResponse($_id: String!, $inviteAction: String) {
+    inviteResponse(input: { _id: $_id, inviteAction: $inviteAction }) {
+      _id
+      projectName
+      description
+      status
+      techStacks
+      createdBy(populate: true) {
+        _id
+        name
+        email
+        photo
+      }
+      confirmedMembers(populate: true) {
+        _id
+        name
+        email
+        photo
+      }
+      unconfirmedMembers(populate: true) {
         _id
         name
         email

@@ -1,7 +1,7 @@
 import { Menu } from '@headlessui/react';
 import React from 'react';
 
-const Badge = ({ open }: any) => {
+const Badge = ({ open, myInfo }: any) => {
   return (
     <div
       className={`${
@@ -13,11 +13,11 @@ const Badge = ({ open }: any) => {
       <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none">
         <span className="sr-only">Open user menu</span>
 
-        {/* <img
-                    className="h-9 w-9 rounded-full object-cover"
-                    src={myInfo?.photo}
-                    alt=""
-                /> */}
+        <img
+          className="h-9 w-9 rounded-full object-cover"
+          src={myInfo?.photo}
+          alt=""
+        />
       </Menu.Button>
     </div>
   );

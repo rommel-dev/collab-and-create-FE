@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { FORGOT_PASSWORD } from 'api/gql/user.gql';
 import AuthHeader from 'components/auth/AuthHeader';
 import Input from 'components/common/Input';
 import Button from 'components/common/Button';
+import { FORGOT_PASSWORD } from 'api/gql/user/user.mutation';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState<string>('');
