@@ -7,12 +7,18 @@ import { IUser } from 'interfaces/user.interface';
 import { ISelectOption } from 'interfaces/common.interface';
 
 const NewProject = () => {
-  const { projectName, description, unconfirmMembers, techStacks, updateForm } =
-    useFormStore();
+  const {
+    projectName,
+    description,
+    unconfirmedMembers,
+    techStacks,
+    updateForm,
+  } = useFormStore();
 
   // TODO
   const memberOptions = [
-    { _id: '62bacdad777658e655ce7648', email: 'rommel667@gmail.com' },
+    { _id: '62bfdec105e77a670957d0dc', email: 'rommel667@gmail.com' },
+    { _id: '62bfdf0505e77a670957d0e7', email: 'rommel668@gmail.com' },
   ].map((colleague: any) => {
     return { label: colleague.email, value: colleague._id };
   });
@@ -34,8 +40,8 @@ const NewProject = () => {
         <p className="text-sm text-gray-500">Members</p>
         <MultiSelect
           options={memberOptions}
-          value={unconfirmMembers}
-          onChange={(items: any) => updateForm({ unconfirmMembers: items })}
+          value={unconfirmedMembers}
+          onChange={(items: any) => updateForm({ unconfirmedMembers: items })}
           labelledBy="In Charge"
           className="z-20 overflow-y-visible mb-5"
         />

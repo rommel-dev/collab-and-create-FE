@@ -26,9 +26,6 @@ export const GET_PROJECTS = gql`
         email
         photo
       }
-      # taskColumns(populate: false) {
-      #   _id
-      # }
       createdAt
       updatedAt
     }

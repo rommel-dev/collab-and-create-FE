@@ -7,7 +7,7 @@ interface Form {
   members: ISelectOption[];
   projectName: string;
   description: string;
-  unconfirmMembers: ISelectOption[];
+  unconfirmedMembers: ISelectOption[];
   techStacks: ISelectOption[];
   columnName: string;
   projectId: string;
@@ -23,7 +23,7 @@ const initialState = {
   members: [],
   projectName: '',
   description: '',
-  unconfirmMembers: [],
+  unconfirmedMembers: [],
   techStacks: [],
   columnName: '',
   projectId: '',

@@ -20,7 +20,7 @@ const BottomHeader = () => {
   const {
     projectName,
     description,
-    unconfirmMembers,
+    unconfirmedMembers,
     techStacks,
     columnName,
     resetForm,
@@ -52,7 +52,7 @@ const BottomHeader = () => {
     variables: {
       projectName,
       description,
-      unconfirmMembers: unconfirmMembers.map(
+      unconfirmedMembers: unconfirmedMembers.map(
         (member: ISelectOption) => member.value
       ),
       techStacks: techStacks.map((stack: ISelectOption) => stack.value),

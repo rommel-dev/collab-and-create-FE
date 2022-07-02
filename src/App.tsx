@@ -1,76 +1,20 @@
-import { gql, useSubscription } from '@apollo/client';
+import { gql, useQuery, useSubscription } from '@apollo/client';
+import { GET_NOTIFICATIONS } from 'api/gql/notification/notification.query';
 import { GET_TASK_COLUMNS } from 'api/gql/task-column/task-column.query';
+import NewTaskColumnSubscription from 'api/subscriptions/NewTaskColumnSubscription';
+import ProjectInviteRespondedSubscription from 'api/subscriptions/ProjectInviteResponded';
+import { useEffect } from 'react';
 import { useUserStore } from 'state/user.store';
 import AppRoutes from './routes/AppRoutes';
 
 const App = () => {
-  const { isAuth } = useUserStore();
-
-  useSubscription(NEW_TASK_COLUMN_SUBSCRIPTION, {
-    variables: { userId: isAuth?._id },
-    onSubscriptionData: ({ client, subscriptionData }) => {
-      const data = client.readQuery({
-        query: GET_TASK_COLUMNS,
-        variables: {
-          projectId: subscriptionData.data.createdTaskColumn.projectId,
-        },
-      });
-
-      if (data) {
-        client.writeQuery({
-          query: GET_TASK_COLUMNS,
-          variables: {
-            projectId: subscriptionData.data.createdTaskColumn.projectId,
-          },
-          data: {
-            getTaskColumns: [
-              ...data.getTaskColumns,
-              subscriptionData.data.createdTaskColumn,
-            ],
-          },
-        });
-      }
-    },
-  });
-
-  return <AppRoutes />;
+  return (
+    <>
+      <ProjectInviteRespondedSubscription />
+      <NewTaskColumnSubscription />
+      <AppRoutes />
+    </>
+  );
 };
-
-export const NEW_TASK_COLUMN_SUBSCRIPTION = gql`
-  subscription createdTaskColumn($userId: String!) {
-    createdTaskColumn(userId: $userId) {
-      _id
-      columnName
-      sequence
-      projectId
-      createdBy(populate: true) {
-        _id
-        name
-        email
-        photo
-      }
-      tasks(populate: true) {
-        _id
-        description
-        createdBy(populate: true) {
-          _id
-          name
-          email
-          photo
-        }
-        inCharge(populate: true) {
-          _id
-          name
-          email
-          photo
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
 
 export default App;

@@ -10,26 +10,26 @@ const ItemButtons = ({ projectId }: any) => {
   const { loading, updateForm } = useFormStore();
 
   const [acceptProjectInvite] = useMutation(INVITE_RESPONSE, {
-    update(proxy, result) {
-      const data: any = proxy.readQuery({
-        query: GET_PROJECTS,
-      });
-      if (data) {
-        const newData = [
-          ...data.getProjects.filter(
-            (p: IProject) => p._id !== result.data.inviteResponse._id
-          ),
-          result.data.inviteResponse,
-        ];
-        proxy.writeQuery({
-          query: GET_PROJECTS,
-          data: {
-            getProjects: [...newData],
-          },
-        });
-        updateForm({ loading: false });
-      }
-    },
+    // update(proxy, result) {
+    //   const data: any = proxy.readQuery({
+    //     query: GET_PROJECTS,
+    //   });
+    //   if (data) {
+    //     const newData = [
+    //       ...data.getProjects.filter(
+    //         (p: IProject) => p._id !== result.data.inviteResponse._id
+    //       ),
+    //       result.data.inviteResponse,
+    //     ];
+    //     proxy.writeQuery({
+    //       query: GET_PROJECTS,
+    //       data: {
+    //         getProjects: [...newData],
+    //       },
+    //     });
+    //     updateForm({ loading: false });
+    //   }
+    // },
     variables: {
       _id: projectId,
       inviteAction: 'accept',
@@ -53,7 +53,7 @@ const ItemButtons = ({ projectId }: any) => {
     <div className="flex gap-1 mt-3">
       <button
         onClick={() => {
-          updateForm({ loading: true });
+          // updateForm({ loading: true });
           acceptProjectInvite();
         }}
         className="bg-indigo-600 hover:bg-indigo-700 rounded-md py-1 px-2"

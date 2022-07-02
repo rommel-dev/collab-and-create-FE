@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { Menu } from '@headlessui/react';
+import { GET_NOTIFICATIONS } from 'api/gql/notification/notification.query';
 import { GET_PROJECTS } from 'api/gql/project/project.query';
 import { client } from 'index';
 import { IProject } from 'interfaces/project.interface';
@@ -17,32 +18,38 @@ const NotificationMenu = () => {
 
   const [notificatioProjects, setNotificationProjects] = useState([]);
 
-  const data = client.readQuery({
-    query: GET_PROJECTS,
-  });
-
-  const refreshNotification = () => {
-    const data = client.readQuery({
-      query: GET_PROJECTS,
-    });
-    if (data) {
-      setNotificationProjects(
-        data.getProjects.filter((project: IProject) =>
-          project.unconfirmedMembers.some((m) => m._id === isAuth?._id)
-        )
-      );
-    }
-  };
+  const { data } = useQuery(GET_NOTIFICATIONS);
 
   useEffect(() => {
-    refreshNotification();
+    console.log('NOTIF', data);
   }, [data]);
 
-  useEffect(() => {
-    if (loading === false) {
-      refreshNotification();
-    }
-  }, [loading]);
+  // const data = client.readQuery({
+  //   query: GET_PROJECTS,
+  // });
+
+  // const refreshNotification = () => {
+  //   const data = client.readQuery({
+  //     query: GET_PROJECTS,
+  //   });
+  //   if (data) {
+  //     setNotificationProjects(
+  //       data.getProjects.filter((project: IProject) =>
+  //         project.unconfirmedMembers.some((m) => m._id === isAuth?._id)
+  //       )
+  //     );
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   refreshNotification();
+  // }, [data]);
+
+  // useEffect(() => {
+  //   if (loading === false) {
+  //     refreshNotification();
+  //   }
+  // }, [loading]);
 
   if (data) {
     return (
@@ -51,13 +58,13 @@ const NotificationMenu = () => {
           <div className="">
             <Badge
               // show={show}
-              projectInvites={notificatioProjects}
+              projectInvites={data?.getNotifications}
               // setShow={() => setShow(!show)}
               open={open}
             />
             <NotificationList
               open={open}
-              projectInvites={notificatioProjects}
+              notifications={data?.getNotifications}
             />
           </div>
         )}
