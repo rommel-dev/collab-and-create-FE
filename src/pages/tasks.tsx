@@ -5,11 +5,11 @@ import { GET_TASK_COLUMNS } from 'api/gql/task-column/task-column.query';
 import { CREATE_TASK } from 'api/gql/task/task.mutation';
 import ModalComponent from 'components/common/ModalComponent';
 import NewTask from 'components/forms/NewTask';
-import DragAndDrop from 'components/tasks/DragAndDrop';
 import { ISelectOption } from 'interfaces/common.interface';
 import { ITaskColumn } from 'interfaces/task-column.interface';
 import { useFormStore } from 'state/form.store';
 import { move, reorder } from 'utils/dnd.utils';
+import TaskColumnDroppable from 'components/tasks/task-column-dnd/TaskColumnDroppable';
 
 const Tasks = () => {
   const { projectId } = useParams();
@@ -61,62 +61,62 @@ const Tasks = () => {
     },
   });
 
-  function onDragEnd(result: any) {
-    const { getTaskColumns } = data;
-    const { source, destination, draggableId, type } = result;
-    // dropped outside the list
-    if (!destination) {
-      return;
-    }
+  // function onDragEnd(result: any) {
+  //   const { getTaskColumns } = data;
+  //   const { source, destination, draggableId, type } = result;
+  //   // dropped outside the list
+  //   if (!destination) {
+  //     return;
+  //   }
 
-    if (type === 'column') {
-      const newColumnOrder = Array.from(getTaskColumns);
-      const target = newColumnOrder[source.index];
-      newColumnOrder.splice(source.index, 1);
-      newColumnOrder.splice(destination.index, 0, target);
-      const taskColumnIds = (newColumnOrder as ITaskColumn[]).map(
-        (col: ITaskColumn) => col._id
-      );
-      // moveTaskColumn({ variables: { taskColumnIds, projectId } });
-      return;
-    }
+  //   if (type === 'column') {
+  //     const newColumnOrder = Array.from(getTaskColumns);
+  //     const target = newColumnOrder[source.index];
+  //     newColumnOrder.splice(source.index, 1);
+  //     newColumnOrder.splice(destination.index, 0, target);
+  //     const taskColumnIds = (newColumnOrder as ITaskColumn[]).map(
+  //       (col: ITaskColumn) => col._id
+  //     );
+  //     // moveTaskColumn({ variables: { taskColumnIds, projectId } });
+  //     return;
+  //   }
 
-    const sId = source.droppableId;
-    const dId = destination.droppableId;
+  //   const sId = source.droppableId;
+  //   const dId = destination.droppableId;
 
-    if (sId === dId) {
-      const tasks = reorder(
-        (getTaskColumns || []).find((c: ITaskColumn) => c._id === sId).tasks,
-        source.index,
-        destination.index
-      );
-      const newTaskColumns = [...getTaskColumns];
-      newTaskColumns[newTaskColumns.findIndex((c) => c._id === sId)] = {
-        ...newTaskColumns[newTaskColumns.findIndex((c) => c._id === sId)],
-        tasks,
-      };
-    } else {
-      const result = move(
-        getTaskColumns.find((c: ITaskColumn) => c._id === sId),
-        getTaskColumns.find((c: ITaskColumn) => c._id === dId),
-        source,
-        destination
-      );
-      const newTaskColumns = [...data.gettaskColumns];
-      newTaskColumns[newTaskColumns.findIndex((c) => c._id === sId)] =
-        result[sId];
-      newTaskColumns[newTaskColumns.findIndex((c) => c._id === dId)] =
-        result[dId];
-      // moveTask({
-      //   variables: {
-      //     sourceColumnId: sId,
-      //     destinationColumnId: dId,
-      //     taskId: draggableId,
-      //     projectId,
-      //   },
-      // });
-    }
-  }
+  //   if (sId === dId) {
+  //     const tasks = reorder(
+  //       (getTaskColumns || []).find((c: ITaskColumn) => c._id === sId).tasks,
+  //       source.index,
+  //       destination.index
+  //     );
+  //     const newTaskColumns = [...getTaskColumns];
+  //     newTaskColumns[newTaskColumns.findIndex((c) => c._id === sId)] = {
+  //       ...newTaskColumns[newTaskColumns.findIndex((c) => c._id === sId)],
+  //       tasks,
+  //     };
+  //   } else {
+  //     const result = move(
+  //       getTaskColumns.find((c: ITaskColumn) => c._id === sId),
+  //       getTaskColumns.find((c: ITaskColumn) => c._id === dId),
+  //       source,
+  //       destination
+  //     );
+  //     const newTaskColumns = [...data.gettaskColumns];
+  //     newTaskColumns[newTaskColumns.findIndex((c) => c._id === sId)] =
+  //       result[sId];
+  //     newTaskColumns[newTaskColumns.findIndex((c) => c._id === dId)] =
+  //       result[dId];
+  //     // moveTask({
+  //     //   variables: {
+  //     //     sourceColumnId: sId,
+  //     //     destinationColumnId: dId,
+  //     //     taskId: draggableId,
+  //     //     projectId,
+  //     //   },
+  //     // });
+  //   }
+  // }
 
   const onOpenNewTaskModal = (columnId: string) => {
     setOpenNewTaskModal(true);
@@ -137,9 +137,9 @@ const Tasks = () => {
       </ModalComponent>
 
       {data?.getTaskColumns.length > 0 ? (
-        <DragAndDrop
-          onDragEnd={onDragEnd}
-          taskColumns={data.getTaskColumns}
+        <TaskColumnDroppable
+          // onDragEnd={onDragEnd}
+          taskColumns={data?.getTaskColumns}
           onOpenNewTaskModal={onOpenNewTaskModal}
           mainDropprableId={projectId}
         />
