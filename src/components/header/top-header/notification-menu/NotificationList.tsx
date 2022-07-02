@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import NotificationItem from './NotificationItem';
-import { IProject } from 'interfaces/project.interface';
 
 const NotificationList = ({ open, notifications, show }: any) => {
   return (

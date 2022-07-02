@@ -1,16 +1,13 @@
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_PROJECTS } from 'api/gql/project/project.query';
 import { GET_TASK_COLUMNS } from 'api/gql/task-column/task-column.query';
 import { CREATE_TASK } from 'api/gql/task/task.mutation';
 import ModalComponent from 'components/common/ModalComponent';
 import NewTask from 'components/forms/NewTask';
-import { client } from 'index';
 import DragAndDrop from 'components/tasks/DragAndDrop';
 import { ISelectOption } from 'interfaces/common.interface';
-import { IProject } from 'interfaces/project.interface';
 import { ITaskColumn } from 'interfaces/task-column.interface';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { useFormStore } from 'state/form.store';
 import { move, reorder } from 'utils/dnd.utils';
 
@@ -122,7 +119,6 @@ const Tasks = () => {
   }
 
   const onOpenNewTaskModal = (columnId: string) => {
-    console.log('CID', columnId);
     setOpenNewTaskModal(true);
     updateForm({ columnId: columnId });
   };

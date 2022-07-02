@@ -1,35 +1,8 @@
 import { useMutation } from '@apollo/client';
 import { INVITE_RESPONSE } from 'api/gql/project/project.mutation';
 
-import { GET_PROJECTS } from 'api/gql/project/project.query';
-import { IProject } from 'interfaces/project.interface';
-import React from 'react';
-import { useFormStore } from 'state/form.store';
-
 const ItemButtons = ({ projectId }: any) => {
-  const { loading, updateForm } = useFormStore();
-
   const [acceptProjectInvite] = useMutation(INVITE_RESPONSE, {
-    // update(proxy, result) {
-    //   const data: any = proxy.readQuery({
-    //     query: GET_PROJECTS,
-    //   });
-    //   if (data) {
-    //     const newData = [
-    //       ...data.getProjects.filter(
-    //         (p: IProject) => p._id !== result.data.inviteResponse._id
-    //       ),
-    //       result.data.inviteResponse,
-    //     ];
-    //     proxy.writeQuery({
-    //       query: GET_PROJECTS,
-    //       data: {
-    //         getProjects: [...newData],
-    //       },
-    //     });
-    //     updateForm({ loading: false });
-    //   }
-    // },
     variables: {
       _id: projectId,
       inviteAction: 'accept',
@@ -37,12 +10,6 @@ const ItemButtons = ({ projectId }: any) => {
   });
 
   const [rejectProjectInvite] = useMutation(INVITE_RESPONSE, {
-    update(proxy, result) {
-      //   dispatch({
-      //     type: 'REJECT_PROJECT_INVITE',
-      //     payload: { project: result.data.rejectProjectInvite },
-      //   });
-    },
     variables: {
       _id: projectId,
       inviteAction: 'reject',

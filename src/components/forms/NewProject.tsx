@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { MultiSelect } from 'react-multi-select-component';
 import Input from 'components/common/Input';
 import TextArea from 'components/common/TextArea';
 import { useFormStore } from 'state/form.store';
-import { IUser } from 'interfaces/user.interface';
 import { ISelectOption } from 'interfaces/common.interface';
 
 const NewProject = () => {
