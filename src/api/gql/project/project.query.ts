@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_PROJECTS = gql`
-  query getProjects($status: String) {
-    getProjects(input: { status: $status }) {
+  query getProjects {
+    getProjects {
       _id
       projectName
       description

@@ -15,7 +15,6 @@ export const CREATE_TASK = gql`
     ) {
       _id
       description
-      columnId
       createdBy(populate: true) {
         _id
         name

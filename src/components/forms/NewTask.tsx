@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-
 import { MultiSelect } from 'react-multi-select-component';
 import TextArea from 'components/common/TextArea';
 import { IUser } from 'interfaces/user.interface';
 import { useFormStore } from 'state/form.store';
-import { client } from 'index';
 import { GET_PROJECTS } from 'api/gql/project/project.query';
 import { IProject } from 'interfaces/project.interface';
+import { useQuery } from '@apollo/client';
 
 const Label = ({ photo, name }: any) => {
   return (
@@ -24,25 +22,27 @@ const Label = ({ photo, name }: any) => {
 };
 
 const NewTask = () => {
-  const params = useParams();
+  const { projectId } = useParams();
+  const [selected, setSelected] = useState<any>([]);
+  const [options, setOptions] = useState([]);
   const { description, updateForm, inCharge } = useFormStore();
 
-  const data = client.readQuery({
-    query: GET_PROJECTS,
-  });
+  const { data } = useQuery(GET_PROJECTS);
 
-  const [selected, setSelected] = useState<any>([]);
-
-  const projectMembers = data.getProjects.find(
-    (project: IProject) => project._id === params.projectId
-  ).confirmedMembers;
-
-  const options = projectMembers.map((member: IUser) => {
-    return {
-      label: <Label photo={member.photo} name={member.name} />,
-      value: member._id,
-    };
-  });
+  useEffect(() => {
+    if (data) {
+      const projectMembers = data?.getProjects.find(
+        (project: IProject) => project._id === projectId
+      ).confirmedMembers;
+      const members = projectMembers?.map((member: IUser) => {
+        return {
+          label: <Label photo={member.photo} name={member.name} />,
+          value: member._id,
+        };
+      });
+      setOptions(members);
+    }
+  }, [data]);
 
   const onChangeMembers = (items: any) => {
     setSelected([
@@ -51,7 +51,7 @@ const NewTask = () => {
         value: item.value,
       })),
     ]);
-    updateForm({ members: items });
+    updateForm({ inCharge: items });
   };
 
   return (
@@ -69,7 +69,7 @@ const NewTask = () => {
           rows={12}
           value={description}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            updateForm(e.target.value)
+            updateForm({ description: e.target.value })
           }
           label="Task Description"
           id="description"

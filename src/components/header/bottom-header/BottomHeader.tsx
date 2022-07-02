@@ -1,13 +1,12 @@
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_PROJECT } from 'api/gql/project/project.mutation';
 import { GET_PROJECTS } from 'api/gql/project/project.query';
 import { CREATE_TASK_COLUMN } from 'api/gql/task-column/task-column.mutation';
-import { GET_TASK_COLUMNS } from 'api/gql/task-column/task-column.query';
 import ModalComponent from 'components/common/ModalComponent';
 import NewProject from 'components/forms/NewProject';
 import NewTaskColumn from 'components/forms/NewTaskColumn';
 import { ISelectOption } from 'interfaces/common.interface';
-import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFormStore } from 'state/form.store';
 import BottomLeft from './BottomLeft';
@@ -34,6 +33,9 @@ const BottomHeader = () => {
   };
 
   const [confirmNewProject] = useMutation(CREATE_PROJECT, {
+    onCompleted(data) {
+      handleCloseModal();
+    },
     update(proxy, result) {
       const data: any = proxy.readQuery({
         query: GET_PROJECTS,
@@ -45,7 +47,6 @@ const BottomHeader = () => {
             getProjects: [...data.getProjects, result.data.createProject],
           },
         });
-        handleCloseModal();
       }
     },
     variables: {
@@ -60,47 +61,27 @@ const BottomHeader = () => {
 
   const [confirmNewTaskColumn] = useMutation(CREATE_TASK_COLUMN, {
     onCompleted(data) {
-      console.log('CREATE DATA', data);
       handleCloseModal();
     },
-    update(proxy, result) {
-      const data: any = proxy.readQuery({
-        query: GET_TASK_COLUMNS,
-        variables: { projectId },
-      });
-
-      if (data) {
-        proxy.writeQuery({
-          query: GET_TASK_COLUMNS,
-          variables: { projectId },
-          data: {
-            getTaskColumns: [
-              ...data.getTaskColumns,
-              result.data.createTaskColumn,
-            ],
-          },
-        });
-      }
-
-      // if (data) {
-      //   const newData = data.getProjects.map((project) => {
-      //     if (project._id === result.data.newTaskColumn.projectId) {
-      //       return {
-      //         ...project,
-      //         taskColumns: [...project.taskColumns, result.data.newTaskColumn],
-      //       };
-      //     } else {
-      //       return { ...project };
-      //     }
-      //   });
-      //   proxy.writeQuery({
-      //     query: GET_PROJECTS,
-      //     data: {
-      //       projectsByUser: [...newData],
-      //     },
-      //   });
-      // }
-    },
+    //TODO: try removing update on cache after mutation, instead use subscription for update
+    // update(proxy, result) {
+    //   const data: any = proxy.readQuery({
+    //     query: GET_TASK_COLUMNS,
+    //     variables: { projectId },
+    //   });
+    //   if (data) {
+    //     proxy.writeQuery({
+    //       query: GET_TASK_COLUMNS,
+    //       variables: { projectId },
+    //       data: {
+    //         getTaskColumns: [
+    //           ...data.getTaskColumns,
+    //           result.data.createTaskColumn,
+    //         ],
+    //       },
+    //     });
+    //   }
+    // },
     variables: { columnName, projectId },
   });
 

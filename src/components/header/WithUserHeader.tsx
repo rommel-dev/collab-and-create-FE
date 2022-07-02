@@ -4,11 +4,7 @@ import BottomHeader from './bottom-header/BottomHeader';
 import TopHeader from './top-header/TopHeader';
 
 const WithUserHeader = () => {
-  const { data } = useQuery(MY_INFO, {
-    onCompleted(data) {
-      console.log(data);
-    },
-  });
+  const { data } = useQuery(MY_INFO);
 
   return (
     <header className="px-6 py-1 border-b-2 border-gray-200">

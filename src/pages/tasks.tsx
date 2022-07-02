@@ -21,23 +21,8 @@ const Tasks = () => {
   const { description, inCharge, columnId, updateForm, resetForm } =
     useFormStore();
 
-  // const getTaskColumnIds = () => {
-  //   const { getProjects } = client.readQuery({
-  //     query: GET_PROJECTS,
-  //   });
-  //   const project = getProjects.find(
-  //     (project: IProject) => project._id === projectId
-  //   );
-  //   const taskColumnIds = project.taskColumns.map(
-  //     (col: ITaskColumn) => col._id
-  //   );
-  //   setTaskColumnIds(taskColumnIds);
-  // };
-
   const { data } = useQuery(GET_TASK_COLUMNS, {
-    onCompleted(data) {
-      console.log('DATAAAAAA', data);
-    },
+    onCompleted(data) {},
     variables: { projectId },
   });
 
@@ -46,46 +31,38 @@ const Tasks = () => {
     resetForm();
   };
 
-  // const [newTask] = useMutation(CREATE_TASK, {
-  //   update(proxy: any, result: any) {
-  //     const data = proxy.readQuery({
-  //       query: GET_PROJECTS,
-  //     });
-  //     if (data) {
-  //       const newData = data.getProjects.map((project: IProject) => {
-  //         if (project._id === result.data.newTask.projectId) {
-  //           return {
-  //             ...project,
-  //             taskColumns: project.taskColumns.map((column: ITaskColumn) => {
-  //               if (column._id === result.data.newTask.columnId) {
-  //                 return {
-  //                   ...column,
-  //                   tasks: [result.data.newTask, ...column.tasks],
-  //                 };
-  //               } else {
-  //                 return { ...column };
-  //               }
-  //             }),
-  //           };
-  //         } else {
-  //           return { ...project };
-  //         }
-  //       });
-  //       proxy.writeQuery({
-  //         query: GET_PROJECTS,
-  //         data: {
-  //           getProjects: [...newData],
-  //         },
-  //       });
-  //       handleCloseModal();
-  //     }
-  //   },
-  //   variables: {
-  //     description,
-  //     taskColumnId: 'TEST',
-  //     inCharge: inCharge.map((item: ISelectOption) => item.value),
-  //   },
-  // });
+  const [newTask] = useMutation(CREATE_TASK, {
+    update(proxy: any, result: any) {
+      const data = proxy.readQuery({
+        query: GET_TASK_COLUMNS,
+        variables: { projectId },
+      });
+      if (data) {
+        const newData = data.getTaskColumns.map((col: ITaskColumn) => {
+          if (col._id === columnId) {
+            return {
+              ...col,
+              tasks: [...col.tasks, result.data.createTask],
+            };
+          } else {
+            return { ...col };
+          }
+        });
+        proxy.writeQuery({
+          query: GET_TASK_COLUMNS,
+          data: {
+            getTaskColumns: [...newData],
+          },
+        });
+        handleCloseModal();
+      }
+    },
+    variables: {
+      description,
+      taskColumnId: columnId,
+      inCharge: inCharge.map((item: ISelectOption) => item.value),
+    },
+  });
 
   function onDragEnd(result: any) {
     const { getTaskColumns } = data;
@@ -145,6 +122,7 @@ const Tasks = () => {
   }
 
   const onOpenNewTaskModal = (columnId: string) => {
+    console.log('CID', columnId);
     setOpenNewTaskModal(true);
     updateForm({ columnId: columnId });
   };
@@ -157,18 +135,20 @@ const Tasks = () => {
         cancel={handleCloseModal}
         modalTitle="New Task"
         confirmButtonText="Confirm"
-        confirm={() => {}}
+        confirm={newTask}
       >
         <NewTask />
       </ModalComponent>
 
-      {data?.getTaskColumns.length > 0 && (
+      {data?.getTaskColumns.length > 0 ? (
         <DragAndDrop
           onDragEnd={onDragEnd}
           taskColumns={data.getTaskColumns}
           onOpenNewTaskModal={onOpenNewTaskModal}
           mainDropprableId={projectId}
         />
+      ) : (
+        <h3>No category added</h3>
       )}
     </main>
   );

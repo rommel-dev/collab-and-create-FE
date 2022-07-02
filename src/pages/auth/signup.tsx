@@ -21,7 +21,6 @@ const Signup = () => {
   const [addUser] = useMutation(SIGN_UP, {
     update(proxy, result) {
       localStorage.setItem('email', result.data.register.email);
-      //   console.log('RESULT', result);
       setFormState({ name: '', email: '', password: '', confirmPassword: '' });
       // history.push('/verification')
     },
@@ -31,7 +30,7 @@ const Signup = () => {
       password: formState.password,
     },
     onError(err) {
-      console.log(err.graphQLErrors[0]);
+      // console.log(err.graphQLErrors[0]);
       setError(err.graphQLErrors[0].message);
     },
   });

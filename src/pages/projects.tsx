@@ -12,9 +12,7 @@ const Projects = () => {
   const [filteredProjects, setFilteredProjects] = useState([]);
   const { isAuth } = useUserStore();
 
-  const { data } = useQuery(GET_PROJECTS, {
-    variables: { status },
-  });
+  const { data } = useQuery(GET_PROJECTS);
 
   useEffect(() => {
     if (data) {

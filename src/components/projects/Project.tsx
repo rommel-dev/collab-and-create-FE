@@ -42,7 +42,6 @@ const Project = ({
     } else {
       setMembers(confirmedMembers);
     }
-    console.log(projectName);
   }, [confirmedMembers, taskColumns]);
 
   return (
