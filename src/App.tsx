@@ -9,7 +9,6 @@ const App = () => {
       <MovedTaskColumnSubscription />
       <ProjectInviteRespondedSubscription />
       <NewTaskColumnSubscription />
-
       <AppRoutes />
     </>
   );

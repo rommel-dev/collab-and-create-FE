@@ -12,7 +12,7 @@ const Layout = () => {
 
   if (isAuth) {
     return (
-      <div className={`${extend ? 'md:margin-third lg:margin-fifth ' : ''} transition-all duration-300 ease-in-out h-full flex bg-white flex-col flex-1 min-w-0 flex-shrink-0`}>
+      <div className={`${extend ? 'md:margin-third lg:margin-fifth' : ''} transition-all duration-300 ease-in-out h-full flex bg-white dark:bg-gray-800 flex-col flex-1 min-w-0 flex-shrink-0`}>
         {extend && <div onClick={toggleExtend} className="z-20 bg-gray-500 h-screen w-screen absolute top-0 bg-opacity-50 md:hidden"></div>}
         <SideDrawer />
         <WithUserHeader />
