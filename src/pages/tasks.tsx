@@ -15,8 +15,7 @@ const Tasks = () => {
   const { projectId } = useParams();
   const [openNewTaskModal, setOpenNewTaskModal] = useState<boolean>(false);
 
-  const { description, inCharge, columnId, updateForm, resetForm } =
-    useFormStore();
+  const { description, inCharge, columnId, updateForm, resetForm } = useFormStore();
 
   const { data } = useQuery(GET_TASK_COLUMNS, {
     onCompleted(data) {},
@@ -124,15 +123,8 @@ const Tasks = () => {
   };
 
   return (
-    <main className="p-3 flex flex-1 h-full">
-      <ModalComponent
-        open={openNewTaskModal}
-        onClose={handleCloseModal}
-        cancel={handleCloseModal}
-        modalTitle="New Task"
-        confirmButtonText="Confirm"
-        confirm={newTask}
-      >
+    <main className="p-3 flex flex-1">
+      <ModalComponent open={openNewTaskModal} onClose={handleCloseModal} cancel={handleCloseModal} modalTitle="New Task" confirmButtonText="Confirm" confirm={newTask}>
         <NewTask />
       </ModalComponent>
 

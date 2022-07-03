@@ -9,35 +9,28 @@ import TaskDroppable from '../task-dnd/TaskDroppable';
 const TaskColumnDraggable = ({ taskColumns, getItemStyle, setOpen }: any) => {
   const [sortedTaskColumns, setSortedTaskColumns] = useState<any>([]);
 
-  const sort = () =>
-    [...taskColumns].sort((a: any, b: any) => a.sequence - b.sequence);
+  const sort = () => [...taskColumns].sort((a: any, b: any) => a.sequence - b.sequence);
 
   useEffect(() => {
     // re-sorting task columns after receiving subscription data from moved task column
-    setSortedTaskColumns(sort());
+    // setSortedTaskColumns(sort());
+    console.log('Re-rendering task-columns');
   }, [taskColumns]);
 
-  return sortedTaskColumns.map((tc: ITaskColumn, ind: number) => (
+  return taskColumns.map((tc: ITaskColumn, ind: number) => (
     <Draggable key={tc._id} draggableId={tc._id} index={ind}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className={`bg-gray-300 rounded-md p-2 flex flex-col h-full w-60`}
+          className={`bg-gray-300 rounded-md p-2 flex flex-col max-h-[85%] min-w-[30%]`}
           style={{ ...provided.draggableProps.style }}
         >
-          <div
-            className="flex flex-row justify-between items-center mb-2"
-            {...provided.dragHandleProps}
-          >
+          <div className="flex flex-row justify-between items-center mb-2" {...provided.dragHandleProps}>
             {tc.columnName}
             <div className="flex items-center gap-1">
-              <FaFileMedical
-                size={15}
-                onClick={() => setOpen(tc._id)}
-                className="cursor-pointer"
-              />
+              <FaFileMedical size={15} onClick={() => setOpen(tc._id)} className="cursor-pointer" />
               {/* <ColumnMenu columnName={el.columnName} columnId={el._id} /> */}
             </div>
           </div>

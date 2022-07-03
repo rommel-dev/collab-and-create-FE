@@ -5,12 +5,7 @@ export const reorder = (list: any, startIndex: number, endIndex: number) => {
   return result;
 };
 
-export const move = (
-  source: any,
-  destination: any,
-  droppableSource: any,
-  droppableDestination: any
-) => {
+export const move = (source: any, destination: any, droppableSource: any, droppableDestination: any) => {
   const sourceClone = Array.from(source.tasks);
   const destClone = Array.from(destination.tasks);
   const [removed] = sourceClone.splice(droppableSource.index, 1);
